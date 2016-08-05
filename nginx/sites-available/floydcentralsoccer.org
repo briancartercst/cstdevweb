@@ -1,0 +1,42 @@
+server {
+    listen 80;
+    server_name floydcentralsoccer.com;
+    return 301 $scheme://www.floydcentralsoccer.com$request_uri;
+
+    location /hhms/ {
+      return 301 $scheme://www.floydcentralsoccer.com/hhms/$request_uri;
+    }
+
+    location /fc/ {
+      return 301 $scheme://www.floydcentralsoccer.com/fc/$request_uri;
+    }
+
+
+
+}
+
+server {
+    listen 80;
+    server_name www.floydcentralsoccer.com;
+
+
+    location /hhms/ {
+        proxy_set_header Host $host;
+        proxy_pass http://10.132.244.93:3200/;
+    }
+   
+    location /fc/ {
+        proxy_set_header Host $host;
+        proxy_pass http://104.236.100.255:3100/;
+    }
+
+
+    location / {
+        proxy_pass http://104.236.100.255:3001;
+    }
+
+
+
+}
+
+
